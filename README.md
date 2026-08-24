@@ -14,7 +14,6 @@ Tout tourne en local sur le poste : aucune donnée ne quitte la machine.
 - [Modules backend en détail](#modules-backend-en-détail)
 - [Frontend](#frontend)
 - [Runtime et fichiers générés](#runtime-et-fichiers-générés)
-- [Dossier utilitaires](#dossier-utilitaires)
 - [Points sensibles](#points-sensibles)
 
 ## Démarrage rapide
@@ -78,7 +77,6 @@ AnalyseAO_xlsx/
 │   ├── app.js
 │   ├── styles.css
 │   └── README.md
-└── utilitaires/               # Scripts de maintenance, diagnostics, sauvegardes, tests manuels (hors chemin de production)
 ```
 
 ## Flux de traitement
@@ -196,10 +194,6 @@ Détails et contrat d'API attendu dans [frontend/README.md](frontend/README.md).
 - `outputs/` : classeurs `.xlsx` produits, servis via `/api/download`.
 - `logs/` : logs Flask (stdout/stderr).
 - `flask.pid` : PID du serveur pour permettre au script `.bat` de détecter une instance déjà active.
-
-## Dossier utilitaires
-
-[utilitaires/](utilitaires/) regroupe des scripts et données hors chemin de production : diagnostics ponctuels, sauvegardes/clones horodatés avant restructuration, jeux de fichiers de test, rapports de stabilité. Rien dans ce dossier n'est appelé par `app.py` ou par `Lancer_AnalyseAO.bat`.
 
 ## Points sensibles
 
