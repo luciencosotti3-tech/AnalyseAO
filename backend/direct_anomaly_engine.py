@@ -9,7 +9,7 @@ VERSION="3.6"
 TOLERANCE=0.02
 TEXT_VALUES=("compris","inclus","pm","so","sans objet","non chiffre","non valorise")
 # CALC_QUALIFICATION_THRESHOLDS_V1
-CALC_ABSOLUTE_SIGNIFICANT=1.00   # ecart absolu (EUR) a partir duquel un calcul est une erreur significative
+CALC_ABSOLUTE_SIGNIFICANT=0.10   # ecart absolu (EUR) a partir duquel un calcul est une erreur significative
 CALC_RELATIVE_SIGNIFICANT=0.001   # ecart relatif (0.1 %) a partir duquel un calcul est une erreur significative
 CALC_TECHNICAL_MINIMUM=0.02       # en-deca, l'ecart est un arrondi technique non significatif
 # TOTAL_CONTROL_THRESHOLDS_V1
