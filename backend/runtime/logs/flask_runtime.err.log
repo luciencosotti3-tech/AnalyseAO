@@ -1,0 +1,10 @@
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:8008
+Press CTRL+C to quit
+127.0.0.1 - - [12/Aug/2026 11:14:36] "GET /api/health HTTP/1.1" 200 -
+127.0.0.1 - - [12/Aug/2026 11:14:36] "GET / HTTP/1.1" 304 -
+127.0.0.1 - - [12/Aug/2026 11:14:36] "GET /app.js HTTP/1.1" 304 -
+127.0.0.1 - - [12/Aug/2026 11:14:36] "GET /Picto_Betrec02.svg HTTP/1.1" 304 -
+127.0.0.1 - - [12/Aug/2026 11:14:36] "GET /styles.css HTTP/1.1" 304 -
+127.0.0.1 - - [12/Aug/2026 11:19:49] "POST /api/run/offer-analysis HTTP/1.1" 200 -
+127.0.0.1 - - [12/Aug/2026 11:19:52] "GET /api/download/27006fef8d884acaae4d023ea5462ed5_analyse_offres_tableau_restructure_22204_TEST_ERREURS_HT_VARIÉES.xlsx HTTP/1.1" 200 -

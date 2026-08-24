@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Outil de traitement des dossiers d'appel d'offres</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="topbar__left">
+        <img class="logo-image" alt="Logo BETREC" src="Picto_Betrec02.svg" />
+      </div>
+      <div class="topbar__center">
+        <h1>Outil de traitement des dossiers d'appel d'offres</h1>
+        <p>Mode dropzone : déposez les DCE généraux ou par lot, puis les ACT associés.</p>
+      </div>
+      <div class="topbar__right">
+        <button id="helpToggle" class="btn btn--ghost" type="button" aria-expanded="false" aria-controls="helpPanel">
+          Mode d'emploi
+        </button>
+      </div>
+    </header>
+
+    <section id="helpPanel" class="help-panel hidden" aria-hidden="true">
+      <div class="help-panel__content">
+        <h2>Mode d'emploi</h2>
+        <ol>
+          <li><strong>Référence BETREC :</strong> déposez uniquement des fichiers Excel DCE.</li>
+          <li><strong>Retours entreprises :</strong> déposez uniquement des fichiers Excel ACT.</li>
+          <li><strong>Lots :</strong> le numéro de lot doit être détecté dans le nom ou renseigné à la volée, par exemple <em>lot 01</em>, <em>lot_02</em>, <em>L03</em>.</li>
+          <li><strong>Téléchargement :</strong> quand le fichier résultat est prêt, une fenêtre permet de choisir son nom avant téléchargement.</li>
+        </ol>
+      </div>
+    </section>
+
+    <main class="main-grid main-grid--dropzone-only">
+      <section class="column column--left">
+        <div class="card">
+          <div class="card__header">
+            <h2>Référence BETREC (DCE Excel)</h2>
+            <p>Déposez le ou les classeurs Excel de référence. Un DCE peut contenir plusieurs lots internes ; aucun numéro n’est alors requis dans son nom.</p>
+          </div>
+          <div id="dceDropzone" class="dropzone dropzone--dce" tabindex="0" role="button" aria-label="Zone de dépôt DCE Excel">
+            <input id="dceInput" type="file" accept=".xlsx,.xlsm" multiple hidden />
+            <div class="dropzone__icon">XLSX</div>
+            <p class="dropzone__title">Glisser-déposer les fichiers DCE Excel</p>
+            <p class="dropzone__subtitle">ou cliquer pour sélectionner des fichiers Excel</p>
+          </div>
+          <ul id="dceFileList" class="file-list lot-file-list"></ul>
+        </div>
+      </section>
+
+      <section class="column column--center">
+        <div class="card card--center-drop">
+          <div class="card__header">
+            <h2>Retours entreprises (ACT Excel)</h2>
+            <p>Déposez un classeur par entreprise. Il peut contenir un seul lot ou plusieurs lots TCE ; le nom de l’entreprise reste renseigné une seule fois.</p>
+          </div>
+          <div class="card-action-layout">
+            <div class="card-action-layout__main">
+              <div id="actDropzone" class="dropzone dropzone--act" tabindex="0" role="button" aria-label="Zone de dépôt ACT Excel">
+                <input id="actInput" type="file" accept=".xlsx,.xlsm" multiple hidden />
+                <div class="dropzone__icon">XLSX</div>
+                <p class="dropzone__title">Glisser-déposer les fichiers ACT Excel</p>
+                <p class="dropzone__subtitle">ou cliquer pour sélectionner des fichiers Excel</p>
+              </div>
+              <ul id="actFileList" class="file-list act-file-list"></ul>
+              <p id="enterpriseNamesError" class="enterprise-error hidden">Renseignez le nom de l’entreprise pour chaque fichier ACT.</p>
+              <p id="lotFilesError" class="enterprise-error hidden">Chaque retour doit être un Excel. Le lot saisi reste facultatif pour les classeurs TCE multi-lots.</p>
+              <div class="center-actions">
+                <button id="runFilesButton" class="btn btn--success" type="button" disabled>
+                  Lancer la restructuration des fichiers déposés
+                </button>
+                <p id="dropHint" class="field-help field-help--center">
+                  Déposez au moins un DCE Excel et un ACT Excel pour lancer la restructuration.
+                </p>
+              </div>
+            </div>
+            <aside class="context-download context-download--side" aria-live="polite">
+              <p id="filesXlsxStatus">Aucun XLSX restructuration disponible.</p>
+              <a id="filesXlsxDownload" class="btn btn--secondary btn--disabled" href="#" download aria-disabled="true">
+                Télécharger le XLSX restructuré
+              </a>
+            </aside>
+          </div>
+
+              <section id="offerAnalysisPanel" class="analysis-action-panel" aria-live="polite">
+                <div class="analysis-action-panel__text">
+                  <h3>Analyse des offres</h3>
+                  <p id="offerAnalysisStatus">Restructurez d'abord les fichiers pour activer l'analyse.</p>
+                </div>
+                
+
+              <!-- Dropzone analyse autonome V3 -->
+              <div class="analysis-source-separator"><span>ou analyser un classeur restructuré existant</span></div>
+              <div id="analysisDropzone" class="dropzone analysis-dropzone" tabindex="0" role="button" aria-label="Zone de dépôt du classeur restructuré à analyser">
+                <input id="analysisInput" type="file" accept=".xlsx" hidden />
+                <div class="dropzone__icon analysis-dropzone__icon">XLSX</div>
+                <p class="dropzone__title">Glisser-déposer le fichier restructuré à analyser</p>
+                <p class="dropzone__subtitle">ou cliquer pour sélectionner un fichier .xlsx</p>
+              </div>
+              <div id="analysisSelectedFile" class="analysis-selected-file hidden">
+                <div class="analysis-selected-file__name">
+                  <strong id="analysisSelectedFileName"></strong>
+                  <span>Classeur prêt pour l'analyse métier</span>
+                </div>
+                <button id="removeAnalysisFileButton" class="trash-button" type="button" aria-label="Retirer le classeur d'analyse">X</button>
+              </div>
+
+                <div class="analysis-action-panel__buttons">
+                  <button id="runOfferAnalysisButton" class="btn btn--analysis" type="button" disabled>
+                    Lancer l'analyse
+                  </button>
+                  <a id="analysisXlsxDownload" class="btn btn--secondary btn--disabled" href="#" aria-disabled="true">
+                    Télécharger le XLSX analysé
+                  </a>
+                </div>
+              </section>
+
+        </div>
+      </section>
+
+      <aside class="column column--right">
+        <div class="card report-card">
+          <div class="card__header">
+            <h2>Rapport d'analyse</h2>
+            <p>Résumé du traitement, fichiers générés et points bloquants utiles.</p>
+          </div>
+          <div id="analysisReport" class="report-box">
+            <p><strong>Aucun traitement lancé.</strong></p>
+            <p>Déposez les DCE généraux ou par lot, puis les ACT avec leur lot détecté ou renseigné.</p>
+          </div>
+        </div>
+      </aside>
+    </main>
+  </div>
+  <script src="app.js"></script>
+  <!-- STABILITY_FIX_AFTER_RESTORE_V1 -->
+  <!-- TCE_VIRTUAL_SHEETS_V22 -->
+</body>
+</html>
