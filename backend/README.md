@@ -2,11 +2,14 @@
 
 - Adresse : `http://127.0.0.1:8008`
 - Sante : `GET /api/health`
-- Depot : `POST /api/run/files`
-- Telechargement : `GET /api/download?path=...`
+- Restructuration : `POST /api/run/files` (champs `dce_files`, `act_files`, `dropped_file_lots`, `act_enterprise_names`)
+- Analyse d'offres : `POST /api/run/offer-analysis` (champ `workbook`, classeur `.xlsx` restructuré en entrée)
+- Telechargement : `GET /api/download/<filename>` (nom proposé au navigateur via `?download_name=...`)
+- Frontend servi directement par Flask : `GET /` et `GET /<path:filename>` renvoient les fichiers de `frontend/`
 
-Le depot valide les fichiers Excel, les lots et les noms d'entreprise ACT.
-Le moteur de restructuration n'est volontairement pas simule : `/api/run/files` renvoie HTTP 501 apres validation et stockage tant que le moteur metier n'est pas branche.
+Le depot valide les fichiers Excel (`.xlsx`/`.xlsm` uniquement), les lots et les noms d'entreprise ACT.
+`/api/run/files` construit la matrice DCE/ACT (`case_matrix.py`), génère le classeur multi-entreprises (`multi_company.py`) et renvoie `workbook_path` + `download_url`.
+`/api/run/offer-analysis` prend en entrée le classeur restructuré et produit un rapport d'analyse (`offer_analysis.py`).
 
 ## Moteur Excel V1
 
