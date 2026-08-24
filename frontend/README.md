@@ -21,14 +21,12 @@ L'interface est volontairement limitée au **mode dropzone**.
 - **Renommage avant téléchargement** : une fenêtre demande le nom du fichier avant de lancer le téléchargement.
 
 ### API utilisée
-- GET /api/health
-- GET /api/config
-- GET /api/last-run
-- GET /api/download?path=...
 - POST /api/run/files
+- POST /api/run/offer-analysis
+- GET /api/download/&lt;filename&gt; (avec `?download_name=...` pour le renommage)
 
-Le contrat attendu dans la réponse data reste : status, workbook_path, download_url, warnings, errors.
-Le frontend envoie aussi `dropped_file_lots` pour exposer les numéros de lots détectés, et conserve `act_enterprise_names` en compatibilité legacy si le backend l'attend encore.
+Le contrat attendu dans la réponse reste : status, workbook_path, download_url, warnings, errors.
+Le frontend envoie aussi `dropped_file_lots` pour exposer les numéros de lots détectés, et `act_enterprise_names` pour le nom d'entreprise saisi par ACT.
 
 ### Conditions d'exécution
 - Le backend Flask doit être démarré localement sur 127.0.0.1:8008.
@@ -38,9 +36,8 @@ Le frontend envoie aussi `dropped_file_lots` pour exposer les numéros de lots d
 - Après remplacement de app.js, le navigateur peut servir une version en cache : faire Ctrl + F5 si le comportement ne change pas.
 - Les messages affichés sont destinés à l'utilisateur métier : français clair, sans jargon technique.
 - Les numéros de lot sont lus dans les noms de fichiers. Le nom de l'entreprise reste obligatoire pour chaque ACT.
-- Si le backend dépend réellement du nom d'entreprise métier, il faudra aligner le backend sur `dropped_file_lots`.
 
 ### À ne pas toucher
-- Ne pas changer l'hôte/port du backend (127.0.0.1:8008) sans aligner `Lancer_AnalyseAO.bat` et `analyse_ao/api/server.py`.
+- Ne pas changer l'hôte/port du backend (127.0.0.1:8008) sans aligner `Lancer_AnalyseAO.bat` et `backend/app.py`.
 - Ne pas réintroduire le mode numéro d'affaire dans l'interface frontend.
 - Conserver la saisie du nom d'entreprise pour chaque ACT.
