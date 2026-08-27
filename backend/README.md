@@ -37,7 +37,6 @@ python backend\inspect_offer.py --dce "DCE.xlsx" --act "ACT.xlsx" --entreprise "
 
 La commande `inspect_offer.py` produit désormais un classeur `.xlsx` avec :
 
-- `Synthèse` ;
 - `BASE` ;
 - `OPTIONS`, créée même si le DCE ne contient aucune option ;
 - une feuille complémentaire par option ACT lorsque plusieurs feuilles d'option sont présentes.
